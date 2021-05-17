@@ -14,6 +14,10 @@ class WebPage:
         return self.driver.find_element(*WebPageLocators.SEARCH_FIELD)
 
     @property
+    def suggest_second_item(self):
+        return self.driver.find_element(*WebPageLocators.SUGGEST_SECOND_ITEM)
+
+    @property
     def web_results(self):
         return self.driver.find_element(*WebPageLocators.WEB_RESULTS)
 

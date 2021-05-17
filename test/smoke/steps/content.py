@@ -3,6 +3,7 @@ import sys
 from behave import *
 from test.smoke.page_models.home_page import HomePage
 from test.smoke.page_models.web_page import WebPage
+import globals
 
 use_step_matcher('re')
 
@@ -60,6 +61,11 @@ def step_impl(context):
 def step_impl(context):
     page = WebPage(context.driver)
     page.did_you_mean.is_enabled()
+
+@then('Search field contains text')
+def step_impl(context):
+    page = WebPage(context.driver)
+    assert page.search_field.get_attribute('value') == globals.initialize.suggest_item_text
 
 
 

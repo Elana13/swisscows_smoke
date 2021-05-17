@@ -1,6 +1,7 @@
 from behave import *
 from selenium import webdriver
 
+from test.smoke.common_utils import get_driver_path
 from test.smoke.page_models.digest_page import DigestPage
 from test.smoke.page_models.home_page import HomePage
 from test.smoke.page_models.plus_page import PlusPage
@@ -8,22 +9,24 @@ from test.smoke.page_models.web_page import WebPage
 
 use_step_matcher('re')
 
-
-def get_page(context):
-    context.driver = webdriver.Chrome('ubuntu_cr_90/chromedriver')# webdriver.Chrome('d:\\ChromeDriver\\chromedriver.exe')
-    return HomePage(context.driver)
+# def define_driver(context):
+#     context.driver = webdriver.Chrome('d:\\ChromeDriver\\chromedriver.exe') # ubuntu_cr_90/chromedriver
+#     return
 
 
 @given("User is on Homepage")
 def step_impl(context):
-    page = get_page(context)
+    context.driver = webdriver.Chrome(get_driver_path())
+    page = HomePage(context.driver)
     context.driver.get(page.url)
+    context.driver.implicitly_wait(10)
 
 @given('User is on Web page with "(.*)" query')
 def step_impl(context, query):
-    page = get_page(context)
+    context.driver = webdriver.Chrome(get_driver_path())
+    page = WebPage(context.driver)
     context.driver.get(page.url + f"?query={query}")
-    context.driver.implicitly_wait(15)
+    context.driver.implicitly_wait(10)
 
 @then("User is on Web page")
 def step_impl(context):
