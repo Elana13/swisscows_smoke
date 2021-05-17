@@ -7,16 +7,16 @@
 #    Then Cursor is on the Search field
 #    #And The main header is "GET AN OVERVIEW OF EVERY PAGE ON THE INTERNET"
 #
-#  Scenario: Suggest is present
-#    Given User is on Homepage
-#    When User type text into search field
-#    Then Suggest appears
-#
-#  Scenario: Search with Suggest
-#    Given User is on Homepage
-#    When User type text into search field
-#    And User select item from Suggest
-#    Then User is on Web page
+  Scenario: Suggest is present
+    Given User is on Homepage
+    When User type text "flow" into search field
+    Then Suggest appears
+
+  Scenario: Search with Suggest
+    Given User is on Homepage
+    When User type text "any" into search field
+    And User select item from Suggest
+    Then User is on Web page
 #
 #  Scenario: Turn off regional search
 #    Given User is on Homepage

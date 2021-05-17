@@ -8,18 +8,24 @@ from test.smoke.page_models.web_page import WebPage
 
 use_step_matcher('re')
 
+# def define_driver(context):
+#     context.driver = webdriver.Chrome('d:\\ChromeDriver\\chromedriver.exe') # ubuntu_cr_90/chromedriver
+#     return
+
+
 @given("User is on Homepage")
 def step_impl(context):
     context.driver = webdriver.Chrome('d:\\ChromeDriver\\chromedriver.exe')
     page = HomePage(context.driver)
     context.driver.get(page.url)
+    context.driver.implicitly_wait(10)
 
 @given('User is on Web page with "(.*)" query')
 def step_impl(context, query):
     context.driver = webdriver.Chrome('d:\\ChromeDriver\\chromedriver.exe')
-    page = HomePage(context.driver)
+    page = WebPage(context.driver)
     context.driver.get(page.url + f"?query={query}")
-    context.driver.implicitly_wait(15)
+    context.driver.implicitly_wait(10)
 
 @then("User is on Web page")
 def step_impl(context):

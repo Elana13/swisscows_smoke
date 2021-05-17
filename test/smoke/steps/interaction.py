@@ -2,22 +2,25 @@ from behave import *
 from selenium.webdriver import ActionChains
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
-from selenium.webdriver.support.wait import WebDriverWait
 
 from test.smoke.page_models.home_page import HomePage
 from test.smoke.page_models.web_page import WebPage
+import globals
 
 use_step_matcher('re')
 
-@when("User type text into search field")
-def step_impl(context):
+@when('User type text "(.*)" into search field')
+def step_impl(context, text):
     page = HomePage(context.driver)
-    page.search_field.send_keys("flow")
+    page.search_field.send_keys(text)
     context.driver.implicitly_wait(10)
 
 @when("User select item from Suggest")
 def step_impl(context):
-    context.driver.find_element(By.CSS_SELECTOR, 'ul.suggestions :nth-child(2)').click()
+    element = context.driver.find_element(By.CSS_SELECTOR, 'ul.suggestions :nth-child(2)')
+    globals.initialize.suggest_item_text = element.text
+    element.click()
+    context.driver.implicitly_wait(10)
 
 @when("User switch checkbox")
 def step_impl(context):
@@ -71,10 +74,11 @@ def step_impl(context):
 @when("User press second page")
 def step_impl(context):
     page = WebPage(context.driver)
-    actions = ActionChains(context.driver)
-    print(page.second_page.text)
-    actions.move_by_offset(700, 300).perform()
     page.second_page.click()
+
+
+
+
 
 
 
