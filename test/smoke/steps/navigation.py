@@ -15,6 +15,15 @@ def get_page(context, page_class):
     return page_class(context.driver)
 
 
+# def class_by_name(name: str) -> object:
+#     if name.casefold() == 'homepage':
+#         return HomePage
+#     elif name.casefold() == 'webpage':
+#         return WebPage
+#     else:
+#         raise ValueError(f"Unknown class name '{name}'")
+
+
 @given("User is on Homepage")
 def step_impl(context):
     page = get_page(context, HomePage)
