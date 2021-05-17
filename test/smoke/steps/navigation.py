@@ -9,24 +9,25 @@ from test.smoke.page_models.web_page import WebPage
 
 use_step_matcher('re')
 
-# def define_driver(context):
-#     context.driver = webdriver.Chrome('d:\\ChromeDriver\\chromedriver.exe') # ubuntu_cr_90/chromedriver
-#     return
+
+def get_page(context, page_class):
+    context.driver = webdriver.Chrome(get_driver_path())
+    return page_class(context.driver)
 
 
 @given("User is on Homepage")
 def step_impl(context):
-    context.driver = webdriver.Chrome(get_driver_path())
-    page = HomePage(context.driver)
+    page = get_page(context, HomePage)
     context.driver.get(page.url)
     context.driver.implicitly_wait(10)
 
+
 @given('User is on Web page with "(.*)" query')
 def step_impl(context, query):
-    context.driver = webdriver.Chrome(get_driver_path())
-    page = WebPage(context.driver)
+    page = get_page(context, WebPage)
     context.driver.get(page.url + f"?query={query}")
     context.driver.implicitly_wait(10)
+
 
 @then("User is on Web page")
 def step_impl(context):
@@ -34,19 +35,23 @@ def step_impl(context):
     expected_url = WebPage(context.driver).url
     assert expected_url in context.driver.current_url
 
+
 @then('Region "(.*)" is added to url')
 def step_impl(context, region):
     assert f"?region={region}" in context.driver.current_url
+
 
 @then("User is on Digest page")
 def step_impl(context):
     expected_url = DigestPage(context.driver).url
     assert expected_url in context.driver.current_url
 
+
 @then("User is on Plus page")
 def step_impl(context):
     expected_url = PlusPage(context.driver).url
     assert expected_url == context.driver.current_url
+
 
 @when("Move to the next tab")
 def step_impl(context):
@@ -57,6 +62,7 @@ def step_impl(context):
             context.driver.switch_to.window(window_handle)
             break
 
+
 @then('User is on site "(.*)"')
 def step_impl(context, site_name):
     expected_url = f"https://{site_name}.com/en"
@@ -64,21 +70,14 @@ def step_impl(context, site_name):
     print(expected_url)
     assert expected_url.startswith(context.driver.current_url)
 
+
 @then("User is on Google store page")
 def step_impl(context):
     expected_url = "https://chrome.google.com/webstore/detail/swisscows"
     assert expected_url in context.driver.current_url
 
+
 @then("Next 10 results are displayed")
 def step_impl(context):
     expected_url = "https://dev.swisscows.com/web?query=appple&offset=10"
     assert expected_url == context.driver.current_url
-
-
-
-
-
-
-
-
-
